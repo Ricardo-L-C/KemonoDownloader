@@ -1,13 +1,27 @@
 import os
-import sys
 import subprocess
+import sys
+
+from PyQt6.QtCore import QSettings, Qt, pyqtSignal
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, 
-    QGroupBox, QGridLayout, QLabel, QSlider, QSpinBox, 
-    QFileDialog, QMessageBox, QCheckBox, QComboBox
+    QCheckBox,
+    QComboBox,
+    QFileDialog,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QSlider,
+    QSpinBox,
+    QVBoxLayout,
+    QWidget,
 )
-from PyQt6.QtCore import Qt, QSettings, pyqtSignal
+
 from kemonodownloader.kd_language import language_manager, translate
+
 
 class SettingsTab(QWidget):
     settings_applied = pyqtSignal()
@@ -22,13 +36,13 @@ class SettingsTab(QWidget):
             "base_directory": self.get_default_base_directory(),
             "simultaneous_downloads": 5,
             "auto_check_updates": True,
-            "language": "english"
+            "language": "english",
         }
         self.settings = self.load_settings()
         self.temp_settings = self.settings.copy()
-        
+
         language_manager.set_language(self.settings["language"])
-        
+
         self.setup_ui()
 
     def get_default_base_directory(self):
@@ -39,13 +53,21 @@ class SettingsTab(QWidget):
             return os.path.expanduser("~/Library/Application Support/Kemono Downloader")
         else:  # Linux and others
             return os.path.join(os.getenv("XDG_DATA_HOME", os.path.expanduser("~/.local/share")), "Kemono Downloader")
-        
+
     def load_settings(self):
         settings_dict = {}
-        settings_dict["base_folder_name"] = self.qsettings.value("base_folder_name", self.default_settings["base_folder_name"], type=str)
-        settings_dict["base_directory"] = self.qsettings.value("base_directory", self.default_settings["base_directory"], type=str)
-        settings_dict["simultaneous_downloads"] = self.qsettings.value("simultaneous_downloads", self.default_settings["simultaneous_downloads"], type=int)
-        settings_dict["auto_check_updates"] = self.qsettings.value("auto_check_updates", self.default_settings["auto_check_updates"], type=bool)
+        settings_dict["base_folder_name"] = self.qsettings.value(
+            "base_folder_name", self.default_settings["base_folder_name"], type=str
+        )
+        settings_dict["base_directory"] = self.qsettings.value(
+            "base_directory", self.default_settings["base_directory"], type=str
+        )
+        settings_dict["simultaneous_downloads"] = self.qsettings.value(
+            "simultaneous_downloads", self.default_settings["simultaneous_downloads"], type=int
+        )
+        settings_dict["auto_check_updates"] = self.qsettings.value(
+            "auto_check_updates", self.default_settings["auto_check_updates"], type=bool
+        )
         settings_dict["language"] = self.qsettings.value("language", self.default_settings["language"], type=str)
         return settings_dict
 
@@ -59,36 +81,40 @@ class SettingsTab(QWidget):
 
     def setup_ui(self):
         layout = QVBoxLayout(self)
-        
+
         # Folder Settings Group
         self.folder_group = QGroupBox()
         self.folder_group.setStyleSheet("QGroupBox { color: white; font-weight: bold; padding: 10px; }")
         folder_layout = QGridLayout()
-        
+
         self.folder_name_label = QLabel()
         folder_layout.addWidget(self.folder_name_label, 0, 0)
         self.folder_name_input = QLineEdit(self.temp_settings["base_folder_name"])
         self.folder_name_input.setStyleSheet("padding: 5px; border-radius: 5px;")
-        self.folder_name_input.textChanged.connect(lambda: self.update_temp_setting("base_folder_name", self.folder_name_input.text()))
+        self.folder_name_input.textChanged.connect(
+            lambda: self.update_temp_setting("base_folder_name", self.folder_name_input.text())
+        )
         folder_layout.addWidget(self.folder_name_input, 0, 1)
-        
+
         self.directory_label = QLabel()
         folder_layout.addWidget(self.directory_label, 1, 0)
         self.directory_input = QLineEdit(self.temp_settings["base_directory"])
         self.directory_input.setStyleSheet("padding: 5px; border-radius: 5px;")
-        self.directory_input.textChanged.connect(lambda: self.update_temp_setting("base_directory", self.directory_input.text()))
+        self.directory_input.textChanged.connect(
+            lambda: self.update_temp_setting("base_directory", self.directory_input.text())
+        )
         folder_layout.addWidget(self.directory_input, 1, 1)
-        
+
         self.browse_button = QPushButton()
         self.browse_button.setStyleSheet("background: #4A5B7A; padding: 5px; border-radius: 5px;")
         self.browse_button.clicked.connect(self.browse_directory)
         folder_layout.addWidget(self.browse_button, 1, 2)
-        
+
         self.open_directory_button = QPushButton()
         self.open_directory_button.setStyleSheet("background: #4A5B7A; padding: 5px; border-radius: 5px;")
         self.open_directory_button.clicked.connect(self.open_app_directory)
         folder_layout.addWidget(self.open_directory_button, 1, 3)
-        
+
         self.folder_group.setLayout(folder_layout)
         layout.addWidget(self.folder_group)
 
@@ -96,14 +122,16 @@ class SettingsTab(QWidget):
         self.download_group = QGroupBox()
         self.download_group.setStyleSheet("QGroupBox { color: white; font-weight: bold; padding: 10px; }")
         download_layout = QGridLayout()
-        
+
         self.simultaneous_downloads_label = QLabel()
         download_layout.addWidget(self.simultaneous_downloads_label, 0, 0)
         self.download_slider = QSlider(Qt.Orientation.Horizontal)
         self.download_slider.setRange(1, 20)
         self.download_slider.setValue(self.temp_settings["simultaneous_downloads"])
-        self.download_slider.setStyleSheet("QSlider::groove:horizontal { border: 1px solid #4A5B7A; height: 8px; background: #2A3B5A; margin: 2px 0; }"
-                                           "QSlider::handle:horizontal { background: #4A5B7A; width: 18px; margin: -2px 0; border-radius: 9px; }")
+        self.download_slider.setStyleSheet(
+            "QSlider::groove:horizontal { border: 1px solid #4A5B7A; height: 8px; background: #2A3B5A; margin: 2px 0; }"
+            "QSlider::handle:horizontal { background: #4A5B7A; width: 18px; margin: -2px 0; border-radius: 9px; }"
+        )
         self.download_slider.valueChanged.connect(self.update_simultaneous_downloads)
         download_layout.addWidget(self.download_slider, 0, 1)
         self.download_spinbox = QSpinBox()
@@ -112,7 +140,7 @@ class SettingsTab(QWidget):
         self.download_spinbox.setStyleSheet("padding: 5px; border-radius: 5px;")
         self.download_spinbox.valueChanged.connect(self.update_simultaneous_downloads)
         download_layout.addWidget(self.download_spinbox, 0, 2)
-        
+
         self.download_group.setLayout(download_layout)
         layout.addWidget(self.download_group)
 
@@ -120,51 +148,55 @@ class SettingsTab(QWidget):
         self.update_group = QGroupBox()
         self.update_group.setStyleSheet("QGroupBox { color: white; font-weight: bold; padding: 10px; }")
         update_layout = QGridLayout()
-        
+
         self.auto_update_label = QLabel()
         update_layout.addWidget(self.auto_update_label, 0, 0)
         self.auto_update_checkbox = QCheckBox()
         self.auto_update_checkbox.setChecked(self.temp_settings["auto_check_updates"])
-        self.auto_update_checkbox.setStyleSheet("QCheckBox::indicator { width: 16px; height: 16px; }"
-                                                "QCheckBox::indicator:unchecked { background: #2A3B5A; border: 1px solid #4A5B7A; }"
-                                                "QCheckBox::indicator:checked { background: #4A6B9A; border: 1px solid #5A7BA9; }")
-        self.auto_update_checkbox.stateChanged.connect(lambda state: self.update_temp_setting("auto_check_updates", state == Qt.CheckState.Checked.value))
+        self.auto_update_checkbox.setStyleSheet(
+            "QCheckBox::indicator { width: 16px; height: 16px; }"
+            "QCheckBox::indicator:unchecked { background: #2A3B5A; border: 1px solid #4A5B7A; }"
+            "QCheckBox::indicator:checked { background: #4A6B9A; border: 1px solid #5A7BA9; }"
+        )
+        self.auto_update_checkbox.stateChanged.connect(
+            lambda state: self.update_temp_setting("auto_check_updates", state == Qt.CheckState.Checked.value)
+        )
         update_layout.addWidget(self.auto_update_checkbox, 0, 1)
-        
+
         self.update_group.setLayout(update_layout)
         layout.addWidget(self.update_group)
-        
+
         # Language Settings Group
         self.language_group = QGroupBox()
         self.language_group.setStyleSheet("QGroupBox { color: white; font-weight: bold; padding: 10px; }")
         language_layout = QGridLayout()
-        
+
         self.language_label = QLabel()
         language_layout.addWidget(self.language_label, 0, 0)
-        
+
         self.language_combo = QComboBox()
         self.update_language_combo()
-        
+
         self.language_combo.setStyleSheet("padding: 5px; border-radius: 5px;")
         self.language_combo.currentIndexChanged.connect(self.update_language)
         language_layout.addWidget(self.language_combo, 0, 1)
-        
+
         self.language_group.setLayout(language_layout)
         layout.addWidget(self.language_group)
 
         # Buttons Layout
         buttons_layout = QHBoxLayout()
-        
+
         self.apply_button = QPushButton()
         self.apply_button.setStyleSheet("background: #4A5B7A; padding: 8px; border-radius: 5px;")
         self.apply_button.clicked.connect(self.confirm_and_apply_settings)
         buttons_layout.addWidget(self.apply_button)
-        
+
         self.reset_button = QPushButton(translate("reset_to_defaults"))
         self.reset_button.setStyleSheet("background: #7A4A5B; padding: 8px; border-radius: 5px;")
         self.reset_button.clicked.connect(self.confirm_and_reset_settings)
         buttons_layout.addWidget(self.reset_button)
-        
+
         layout.addLayout(buttons_layout)
         layout.addStretch()
 
@@ -178,7 +210,7 @@ class SettingsTab(QWidget):
         self.language_combo.addItem(translate("japanese"), "japanese")
         self.language_combo.addItem(translate("korean"), "korean")
         self.language_combo.addItem(translate("chinese-simplified"), "chinese-simplified")
-        
+
         for i in range(self.language_combo.count()):
             if self.language_combo.itemData(i) == current_language:
                 self.language_combo.setCurrentIndex(i)
@@ -198,7 +230,7 @@ class SettingsTab(QWidget):
     def open_app_directory(self):
         """Open the current app directory in the system file explorer."""
         directory = os.path.join(self.temp_settings["base_directory"], self.temp_settings["base_folder_name"])
-        
+
         # Create directory if it doesn't exist
         if not os.path.exists(directory):
             try:
@@ -206,7 +238,7 @@ class SettingsTab(QWidget):
             except OSError:
                 QMessageBox.warning(self, translate("error"), f"Could not create directory: {directory}")
                 return
-        
+
         try:
             if sys.platform == "win32":  # Windows
                 os.startfile(directory)
@@ -232,19 +264,20 @@ class SettingsTab(QWidget):
     def confirm_and_apply_settings(self):
         auto_check_status = translate("enabled") if self.temp_settings["auto_check_updates"] else translate("disabled")
         language_name = language_manager.get_text(self.temp_settings["language"])
-        
+
         reply = QMessageBox.question(
             self,
             translate("confirm_settings_change"),
-            translate("confirm_settings_message", 
-                self.temp_settings['base_folder_name'],
-                self.temp_settings['base_directory'],
-                self.temp_settings['simultaneous_downloads'],
+            translate(
+                "confirm_settings_message",
+                self.temp_settings["base_folder_name"],
+                self.temp_settings["base_directory"],
+                self.temp_settings["simultaneous_downloads"],
                 auto_check_status,
-                language_name
+                language_name,
             ),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No
+            QMessageBox.StandardButton.No,
         )
 
         if reply == QMessageBox.StandardButton.No:
@@ -262,14 +295,13 @@ class SettingsTab(QWidget):
             try:
                 os.makedirs(base_dir, exist_ok=True)
             except OSError as e:
-                QMessageBox.warning(self, translate("invalid_input"), 
-                                    translate("directory_creation_failed", str(e)))
+                QMessageBox.warning(self, translate("invalid_input"), translate("directory_creation_failed", str(e)))
                 self.directory_input.setText(self.settings["base_directory"])
                 self.temp_settings["base_directory"] = self.settings["base_directory"]
                 return
 
         language_changed = self.settings["language"] != self.temp_settings["language"]
-        
+
         self.settings = self.temp_settings.copy()
         self.save_settings()
         old_base_folder = self.parent.base_folder
@@ -295,17 +327,18 @@ class SettingsTab(QWidget):
 
         auto_check_status = translate("enabled") if self.settings["auto_check_updates"] else translate("disabled")
         language_name = language_manager.get_text(self.settings["language"])
-        
+
         QMessageBox.information(
             self,
             translate("settings_applied"),
-            translate("settings_applied_message",
-                self.settings['base_folder_name'],
-                self.settings['base_directory'],
-                self.settings['simultaneous_downloads'],
+            translate(
+                "settings_applied_message",
+                self.settings["base_folder_name"],
+                self.settings["base_directory"],
+                self.settings["simultaneous_downloads"],
                 auto_check_status,
-                language_name
-            )
+                language_name,
+            ),
         )
 
     def confirm_and_reset_settings(self):
@@ -315,7 +348,7 @@ class SettingsTab(QWidget):
             translate("reset_to_defaults"),
             translate("confirm_reset_message"),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No
+            QMessageBox.StandardButton.No,
         )
 
         if reply == QMessageBox.StandardButton.Yes:
@@ -324,22 +357,18 @@ class SettingsTab(QWidget):
     def reset_to_defaults(self):
         """Reset temp_settings to default values and update UI."""
         self.temp_settings = self.default_settings.copy()
-        
+
         # Update UI elements to reflect default values
         self.folder_name_input.setText(self.temp_settings["base_folder_name"])
         self.directory_input.setText(self.temp_settings["base_directory"])
         self.download_slider.setValue(self.temp_settings["simultaneous_downloads"])
         self.download_spinbox.setValue(self.temp_settings["simultaneous_downloads"])
         self.auto_update_checkbox.setChecked(self.temp_settings["auto_check_updates"])
-        
+
         # Update language combo box
         self.update_language_combo()
-        
-        QMessageBox.information(
-            self,
-            translate("reset_to_defaults"),
-            translate("settings_reset_message")
-        )
+
+        QMessageBox.information(self, translate("reset_to_defaults"), translate("settings_reset_message"))
 
     def update_ui_text(self):
         self.folder_group.setTitle(translate("folder_settings"))

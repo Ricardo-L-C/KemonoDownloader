@@ -3,20 +3,22 @@
 Thank you for your interest in contributing to KemonoDownloader! We welcome contributions from the community to help improve this tool for downloading content from Kemono.cr. Whether you’re fixing bugs, adding features, or improving documentation, your efforts are greatly appreciated.
 
 ## Table of Contents
-- [Community Guidelines](#community-guidelines)
-- [How to Contribute](#how-to-contribute)
-  - [Follow the Code of Conduct](#follow-the-code-of-conduct)
-  - [Check Existing Issues](#check-existing-issues-and-discussions)
-  - [Fork and Clone](#fork-and-clone-the-repository)
-  - [Development Environment](#set-up-your-development-environment)
-  - [Making Changes](#make-your-changes)
-  - [Testing](#test-your-changes)
-  - [Submitting a Pull Request](#push-and-submit-a-pull-request)
-- [Coding Standards](#coding-standards)
-- [Reporting Bugs](#reporting-bugs)
-- [Suggesting Features](#suggesting-features)
-- [Reporting Security Issues](#reporting-security-issues)
-- [Getting Help](#getting-help)
+- [Contributing to KemonoDownloader](#contributing-to-kemonodownloader)
+  - [Table of Contents](#table-of-contents)
+  - [Community Guidelines](#community-guidelines)
+  - [How to Contribute](#how-to-contribute)
+    - [Follow the Code of Conduct](#follow-the-code-of-conduct)
+    - [Check Existing Issues and Discussions](#check-existing-issues-and-discussions)
+    - [Fork and Clone the Repository](#fork-and-clone-the-repository)
+    - [Development Environment](#development-environment)
+    - [Making Changes](#making-changes)
+    - [Testing](#testing)
+    - [Push and Submit a Pull Request](#push-and-submit-a-pull-request)
+  - [Coding Standards](#coding-standards)
+  - [Reporting Bugs](#reporting-bugs)
+  - [Suggesting Features](#suggesting-features)
+  - [Reporting Security Issues](#reporting-security-issues)
+  - [Getting Help](#getting-help)
 
 ## Community Guidelines
 To maintain a safe and productive environment, please adhere to the following rules:

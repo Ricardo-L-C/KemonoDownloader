@@ -1,108 +1,22 @@
-[tool.briefcase]
-project_name = "Kemono Downloader"
-bundle = "com.voxdroid"
-version = "5.3.0"
-url = "https://github.com/VoxDroid/KemonoDownloader"
-license.file = "LICENSE"
-author = "VoxDroid"
-author_email = "izeno.contact@gmail.com"
-
-[tool.briefcase.app.kemonodownloader]
-formal_name = "KemonoDownloader"
+[project]
+name = "kemonoDownloader"
+version = "1.0.0"
 description = "A cross-platform Python app built with PyQt6 to download posts and creator content from Kemono.cr."
-long_description = """A cross-platform Python app built with PyQt6 to download posts and creator content from Kemono.cr. Supports concurrent downloads, file deduplication, and customizable settings."""
-signing_identity = ""
-icon = "assets/icons/KemonoDownloader"  
-
-sources = [
-    "src/kemonodownloader",
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiohttp>=3.12.15",
+    "asyncio>=4.0.0",
+    "briefcase>=0.3.25",
+    "bs4>=0.0.2",
+    "fake-useragent>=2.2.0",
+    "packaging>=25.0",
+    "pillow>=11.3.0",
+    "pyinstaller>=6.16.0",
+    "pyqt6>=6.9.1",
+    "qtawesome>=1.4.0",
+    "requests>=2.32.5",
 ]
 
-test_sources = [
-    "tests",
-]
-
-requires = [
-    "pyqt6",
-    "requests",
-    "beautifulsoup4", 
-    "qtawesome",
-    "packaging",
-    "pillow",
-    "fake-useragent",
-    "aiohttp",
-    "asyncio"
-]
-
-test_requires = [
-    "pytest",
-]
-
-[tool.briefcase.app.kemonodownloader.macOS]
-universal_build = true
-requires = [
-]
-
-
-[tool.briefcase.app.kemonodownloader.linux]
-requires = [
-]
-
-[tool.briefcase.app.kemonodownloader.linux.system.debian]
-system_requires = [
-]
-
-system_runtime_requires = [
-]
-
-[tool.briefcase.app.kemonodownloader.linux.system.rhel]
-system_requires = [
-]
-
-system_runtime_requires = [
-]
-
-[tool.briefcase.app.kemonodownloader.linux.system.suse]
-system_requires = [
-]
-
-system_runtime_requires = [
-]
-
-[tool.briefcase.app.kemonodownloader.linux.system.arch]
-system_requires = [
-]
-
-system_runtime_requires = [
-]
-
-[tool.briefcase.app.kemonodownloader.linux.appimage]
-manylinux = "manylinux_2_28"
-
-system_requires = [
-]
-
-linuxdeploy_plugins = [
-]
-
-[tool.briefcase.app.kemonodownloader.linux.flatpak]
-finish_arg."filesystem=home" = true
-flatpak_runtime = "org.kde.Platform"
-flatpak_runtime_version = "6.7"
-flatpak_sdk = "org.kde.Sdk"
-
-[tool.briefcase.app.kemonodownloader.windows]
-requires = [
-]
-
-# Mobile deployments
-[tool.briefcase.app.kemonodownloader.iOS]
-supported = false
-
-[tool.briefcase.app.kemonodownloader.android]
-supported = false
-
-# Web deployments
-[tool.briefcase.app.kemonodownloader.web]
-supported = false
-
+[[tool.uv.index]]
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"

@@ -1,7 +1,9 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QScrollArea, QLabel
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
-from kemonodownloader.kd_language import translate 
+from PyQt6.QtWidgets import QLabel, QScrollArea, QVBoxLayout, QWidget
+
+from kemonodownloader.kd_language import translate
+
 
 class HelpTab(QWidget):
     def __init__(self, parent):
@@ -17,7 +19,8 @@ class HelpTab(QWidget):
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        scroll_area.setStyleSheet("""
+        scroll_area.setStyleSheet(
+            """
             QScrollArea {
                 border: none;
                 background: #2A3B5A;
@@ -38,14 +41,15 @@ class HelpTab(QWidget):
             QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
                 height: 0px;
             }
-        """)
+        """
+        )
 
         content_widget = QWidget()
         self.content_layout = QVBoxLayout(content_widget)
         self.content_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.content_layout.setSpacing(20)
 
-        self.update_ui_text() 
+        self.update_ui_text()
 
         scroll_area.setWidget(content_widget)
         main_layout.addWidget(scroll_area)
